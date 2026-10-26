@@ -30,15 +30,14 @@ jobs:
       - name: Install cargo-ndk
         run: cargo install cargo-ndk
 
-      - name: Install Android SDK
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          cmdline-tools-version: 12266719
+
+      - name: Install Android SDK packages
         run: |
-          if [ -z "$ANDROID_HOME" ]; then
-            echo "ANDROID_HOME is not set"
-            exit 1
-          fi
-
-          yes | sdkmanager --licenses
-
+          sdkmanager --licenses
           sdkmanager \
             "platforms;android-35" \
             "build-tools;35.0.0" \
