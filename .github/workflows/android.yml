@@ -23,13 +23,12 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install Android components
+      - name: Configure Android SDK
         run: |
-          sdkmanager --install \
-            "platform-tools" \
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
             "platforms;android-34" \
             "build-tools;34.0.0" \
             "ndk;25.2.9519653"
@@ -45,4 +44,3 @@ jobs:
           name: XLauncher-debug
           path: ZalithLauncher/build/outputs/apk/debug/*.apk
           if-no-files-found: error
-          
